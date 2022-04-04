@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { Row, RowState } from "./Row";
-import dictionary from "./dictionary.json";
+// import dictionary from "./dictionary.json";
 import { Clue, clue, describeClue, violation } from "./clue";
 import { Keyboard } from "./Keyboard";
 import targetList from "./targets.json";
+import clueList from "./answers.json";
 import {
   describeSeed,
-  dictionarySet,
+  // dictionarySet,
   Difficulty,
   gameName,
   pick,
@@ -31,7 +32,7 @@ interface GameProps {
   keyboardLayout: string;
 }
 
-const targets = targetList.slice(0, targetList.indexOf("murky") + 1); // Words no rarer than this one
+// const targets = targetList.slice(0, targetList.indexOf("murky") + 1); // Words no rarer than this one
 const minLength = 4;
 const defaultLength = 5;
 const maxLength = 11;
@@ -39,12 +40,22 @@ const limitLength = (n: number) =>
   n >= minLength && n <= maxLength ? n : defaultLength;
 
 function randomTarget(wordLength: number): string {
-  const eligible = targets.filter((word) => word.length === wordLength);
-  let candidate: string;
-  do {
-    candidate = pick(eligible);
-  } while (/\*/.test(candidate));
-  return candidate;
+  // console.log(clueList);
+  const eligible = clueList.filter(function (el) { return el.answer.length === wordLength; });
+
+  // const eligible = targets.filter((word) => word.length === wordLength);
+  // let candidate: string;
+  // do {
+  //   candidate = pick(eligible);
+  // } while (/\*/.test(candidate));
+
+  let candidate = pick(eligible);
+  return candidate.answer.toLowerCase();
+}
+
+function getClues(target: string) {
+  const clues = clueList.filter(function (el) { return el.answer.toLowerCase() === target; });
+  return clues[0].clues;
 }
 
 function getChallengeUrl(target: string): string {
@@ -64,10 +75,10 @@ try {
   console.warn(e);
   challengeError = true;
 }
-if (initChallenge && !dictionarySet.has(initChallenge)) {
-  initChallenge = "";
-  challengeError = true;
-}
+// if (initChallenge && !dictionarySet.has(initChallenge)) {
+//   initChallenge = "";
+//   challengeError = true;
+// }
 
 function parseUrlLength(): number {
   const lengthParam = urlParam("length");
@@ -126,6 +137,7 @@ function Game(props: GameProps) {
     setHint("");
     setGuesses([]);
     setCurrentGuess("");
+    const clues = getClues(target);
     setGameState(GameState.Playing);
     setGameNumber((x) => x + 1);
   };
@@ -178,10 +190,10 @@ function Game(props: GameProps) {
         setHint("Too short");
         return;
       }
-      if (!dictionary.includes(currentGuess)) {
-        setHint("Not a valid word");
-        return;
-      }
+      // if (!dictionary.includes(currentGuess)) {
+      //   setHint("Not a valid word");
+      //   return;
+      // }
       for (const g of guesses) {
         const c = clue(g, target);
         const feedback = violation(props.difficulty, c, currentGuess);
@@ -260,7 +272,7 @@ function Game(props: GameProps) {
 
   return (
     <div className="Game" style={{ display: props.hidden ? "none" : "block" }}>
-      <div className="Game-options">
+      {/*<div className="Game-options">
         <label htmlFor="wordLength">Letters:</label>
         <input
           type="range"
@@ -297,7 +309,7 @@ function Game(props: GameProps) {
         >
           Give up
         </button>
-      </div>
+      </div>*/}
       <table
         className="Game-rows"
         tabIndex={0}
@@ -320,21 +332,21 @@ function Game(props: GameProps) {
         letterInfo={letterInfo}
         onKey={onKey}
       />
-      <div className="Game-seed-info">
+      {/*<div className="Game-seed-info">
         {challenge
           ? "playing a challenge game"
           : seed
           ? `${describeSeed(seed)} — length ${wordLength}, game ${gameNumber}`
           : "playing a random game"}
-      </div>
+      </div>*/}
       <p>
-        <button
+        {/*<button
           onClick={() => {
             share("Link copied to clipboard!");
           }}
         >
           Share a link to this game
-        </button>{" "}
+        </button>{" "}*/}
         {gameState !== GameState.Playing && (
           <button
             onClick={() => {

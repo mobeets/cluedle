@@ -22,9 +22,9 @@ export function Keyboard(props: KeyboardProps) {
           {row.map((label, j) => {
             let className = "Game-keyboard-button";
             const clue = props.letterInfo.get(label);
-            if (clue !== undefined) {
-              className += " " + clueClass(clue);
-            }
+            // if (clue !== undefined) {
+            //   className += " " + clueClass(clue);
+            // }
             if (label.length > 1) {
               className += " Game-keyboard-button-wide";
             }

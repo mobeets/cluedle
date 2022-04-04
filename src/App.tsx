@@ -78,9 +78,8 @@ function App() {
             fontStyle: difficulty > 1 ? "italic" : "inherit",
           }}
         >
-          hell
+          cluedle
         </span>
-        o wordl
       </h1>
       <div className="top-right">
         {page !== "game" ? (
@@ -92,7 +91,7 @@ function App() {
           </>
         )}
       </div>
-      <div
+      {/*<div
         style={{
           position: "absolute",
           left: 5,
@@ -103,7 +102,7 @@ function App() {
         <a href={seed ? "?random" : "?seed=" + todaySeed}>
           {seed ? "Random" : "Today's"}
         </a>
-      </div>
+      </div>*/}
       {page === "about" && <About />}
       {page === "settings" && (
         <div className="Settings">

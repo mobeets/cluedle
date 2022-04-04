@@ -10,13 +10,10 @@ export function About() {
         <a href="https://www.powerlanguage.co.uk/wordle/">
           <i>Wordle</i>
         </a>{" "}
-        by <a href="https://twitter.com/powerlanguish">powerlanguage</a>, which
-        I think is based on the TV show <i>Lingo</i>.
+        by <a href="https://twitter.com/powerlanguish">powerlanguage</a>.
       </p>
       <p>
         You get {maxGuesses} tries to guess a target word.
-        <br />
-        After each guess, you get Mastermind-style feedback.
       </p>
       <hr />
       <Row
@@ -72,14 +69,7 @@ export function About() {
       />
       <p>
         Report issues{" "}
-        <a href="https://github.com/lynn/hello-wordl/issues">here</a>, or tweet{" "}
-        <a href="https://twitter.com/chordbug">@chordbug</a>.
-      </p>
-      <p>
-        This game will be free and ad-free forever,
-        <br />
-        but you can <a href="https://ko-fi.com/chordbug">buy me a coffee</a> if
-        you'd like.
+        <a href="https://github.com/jehosafet/cluedle/issues">here</a>.
       </p>
     </div>
   );
