@@ -7,7 +7,7 @@ export function About() {
     <div className="App-about">
       <p>
         <i>{gameName}</i> is a remake of the word game{" "}
-        <a href="https://www.powerlanguage.co.uk/wordle/">
+        <a href="https://www.nytimes.com/games/wordle/index.html">
           <i>Wordle</i>
         </a>{" "}
         by <a href="https://twitter.com/powerlanguish">powerlanguage</a>.
@@ -15,61 +15,48 @@ export function About() {
       <p>
         You get {maxGuesses} tries to guess a target word.
       </p>
+      <p>Before each guess, you get a new crossword-style clue, using <a href="https://github.com/jasonphillips/react-crossword-generator">clues</a> from crosswords.</p>
       <hr />
+      <p>Our first clue is "<i>Can I have a ___?</i>" Let's try guessing "hand":</p>
       <Row
         rowState={RowState.LockedIn}
         wordLength={4}
         cluedLetters={[
-          { clue: Clue.Absent, letter: "w" },
-          { clue: Clue.Absent, letter: "o" },
-          { clue: Clue.Correct, letter: "r" },
-          { clue: Clue.Elsewhere, letter: "d" },
+          { clue: Clue.Elsewhere, letter: "h" },
+          { clue: Clue.Elsewhere, letter: "a" },
+          { clue: Clue.Elsewhere, letter: "n" },
+          { clue: Clue.Correct, letter: "d" },
         ]}
+        annotation={"Can I have a ___?"}
       />
       <p>
-        <b>W</b> and <b>O</b> aren't in the target word at all.
+        <b className={"green-bg"}>D</b> is correct! The last letter is{" "}
+        <b className={"green-bg"}>D</b>
+        .
       </p>
       <p>
-        <b className={"green-bg"}>R</b> is correct! The third letter is{" "}
-        <b className={"green-bg"}>R</b>
-        .<br />
-        <strong>(There may still be a second R in the word.)</strong>
-      </p>
-      <p>
-        <b className={"yellow-bg"}>D</b> occurs <em>elsewhere</em> in the target
-        word.
-        <br />
-        <strong>(Perhaps more than once. 🤔)</strong>
+        <b>H</b>, <b>A</b>, and <b>N</b> may or may not be in the target word.
       </p>
       <hr />
+      <p>Our new clue is "<i>Slang for 'So true.'</i>"</p>
+      <Row
+        rowState={RowState.LockedIn}
+        wordLength={4}
+        cluedLetters={[
+          { clue: Clue.Correct, letter: "w" },
+          { clue: Clue.Correct, letter: "o" },
+          { clue: Clue.Correct, letter: "r" },
+          { clue: Clue.Correct, letter: "d" },
+        ]}
+        annotation={"Slang for 'So true.'."}
+      />
       <p>
-        Let's move the <b>D</b> in our next guess:
+        Nice! We solved it.
       </p>
-      <Row
-        rowState={RowState.LockedIn}
-        wordLength={4}
-        cluedLetters={[
-          { clue: Clue.Correct, letter: "d" },
-          { clue: Clue.Correct, letter: "a" },
-          { clue: Clue.Correct, letter: "r" },
-          { clue: Clue.Absent, letter: "k" },
-        ]}
-        annotation={"So close!"}
-      />
-      <Row
-        rowState={RowState.LockedIn}
-        wordLength={4}
-        cluedLetters={[
-          { clue: Clue.Correct, letter: "d" },
-          { clue: Clue.Correct, letter: "a" },
-          { clue: Clue.Correct, letter: "r" },
-          { clue: Clue.Correct, letter: "t" },
-        ]}
-        annotation={"Got it!"}
-      />
+      <hr />
       <p>
         Report issues{" "}
-        <a href="https://github.com/jehosafet/cluedle/issues">here</a>.
+        <a href="https://github.com/mobeets/cluedle/issues">here</a>.
       </p>
     </div>
   );

@@ -5,7 +5,8 @@ import pandas as pd
 import json
 
 # source: https://cryptics.georgeho.org/data/clues
-CLUEFILE = '/Users/mobeets/Downloads/clues.csv'
+# CLUEFILE = '/Users/mobeets/Downloads/clues.csv'
+CLUEFILE = '/Users/mobeets/code/react-crossword-generator/data/clues.txt'
 WORDFILE = 'dictionary.json'
 
 MIN_CLUES = 10
@@ -15,8 +16,9 @@ MAX_TRIES = 5
 JOIN_KEY = '|||'
 
 def load_cluefile(cluefile=CLUEFILE):
-	df = pd.read_csv(cluefile)
-	df = df[df.puzzle_name.apply(lambda x: 'cryptic' not in x.lower() if type(x) is str else False) == True]
+	# df = pd.read_csv(cluefile)
+	# df = df[df.puzzle_name.apply(lambda x: 'cryptic' not in x.lower() if type(x) is str else False) == True]
+	df = pd.read_csv(cluefile, sep='\t', header=None, names=['clue', 'answer', 'x', 'y'])
 	return df
 
 def save_answers(cluefile=CLUEFILE, outfile='targets2.json', min_clues=MIN_CLUES, min_length=MIN_LENGTH, max_length=MAX_LENGTH, dictfile='dictionary.json'):
@@ -35,7 +37,7 @@ def save_answers(cluefile=CLUEFILE, outfile='targets2.json', min_clues=MIN_CLUES
 			continue
 		clues = dfc.clue.values.tolist()
 		lenstr = '({})'.format(len(answer))
-		clues = [clue.replace(lenstr, '').strip() for clue in clues if type(clue) is str]
+		clues = list(set([clue.replace(lenstr, '').strip() for clue in clues if type(clue) is str]))
 		if len(clues) < min_clues:
 			continue
 		if words and answer.lower() not in words:

@@ -124,7 +124,7 @@ function App() {
             />
             <label htmlFor="colorblind-setting">High-contrast colors</label>
           </div>
-          <div className="Settings-setting">
+          <div className="Settings-setting setting-difficulty">
             <input
               id="difficulty-setting"
               type="range"
@@ -133,7 +133,7 @@ function App() {
               value={difficulty}
               onChange={(e) => setDifficulty(+e.target.value)}
             />
-            <div>
+            <div className="setting-difficulty">
               <label htmlFor="difficulty-setting">Difficulty:</label>
               <strong>{["Normal", "Hard", "Ultra Hard"][difficulty]}</strong>
               <div

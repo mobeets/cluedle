@@ -1,13 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { Row, RowState } from "./Row";
-// import dictionary from "./dictionary.json";
+import dictionary from "./dictionary.json";
 import { Clue, clue, describeClue, violation } from "./clue";
 import { Keyboard } from "./Keyboard";
-import targetList from "./targets.json";
 import clueList from "./answers.json";
 import {
   describeSeed,
-  // dictionarySet,
+  dictionarySet,
   Difficulty,
   gameName,
   pick,
@@ -32,7 +31,6 @@ interface GameProps {
   keyboardLayout: string;
 }
 
-// const targets = targetList.slice(0, targetList.indexOf("murky") + 1); // Words no rarer than this one
 const minLength = 4;
 const defaultLength = 5;
 const maxLength = 11;
@@ -75,10 +73,10 @@ try {
   console.warn(e);
   challengeError = true;
 }
-// if (initChallenge && !dictionarySet.has(initChallenge)) {
-//   initChallenge = "";
-//   challengeError = true;
-// }
+if (initChallenge && !dictionarySet.has(initChallenge)) {
+  initChallenge = "";
+  challengeError = true;
+}
 
 function parseUrlLength(): number {
   const lengthParam = urlParam("length");
@@ -192,10 +190,10 @@ function Game(props: GameProps) {
         setHint("Too short");
         return;
       }
-      // if (!dictionary.includes(currentGuess)) {
-      //   setHint("Not a valid word");
-      //   return;
-      // }
+      if (!dictionary.includes(currentGuess)) {
+        setHint("Not a valid word");
+        return;
+      }
       for (const g of guesses) {
         const c = clue(g, target);
         const feedback = violation(props.difficulty, c, currentGuess);
@@ -209,7 +207,7 @@ function Game(props: GameProps) {
 
       const gameOver = (verbed: string) =>
         `You ${verbed}! The answer was ${target.toUpperCase()}. (Enter to ${
-          challenge ? "play a random game" : "play again"
+          challenge ? "play a random game" : "play again."
         })`;
 
       if (currentGuess === target) {
@@ -353,6 +351,7 @@ function Game(props: GameProps) {
         </button>{" "}*/}
         {gameState !== GameState.Playing && (
           <button
+            className="share-link"
             onClick={() => {
               const emoji = props.colorBlind
                 ? ["⬛", "⬛", "🟧"]
@@ -371,7 +370,7 @@ function Game(props: GameProps) {
               );
             }}
           >
-            Share emoji results
+            Share Results
           </button>
         )}
       </p>
