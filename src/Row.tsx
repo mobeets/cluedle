@@ -45,9 +45,7 @@ export function Row(props: RowProps) {
   return (
     <tr className={rowClass}>
       {letterDivs}
-      {props.annotation && (
-        <span className="Row-annotation">{props.annotation}</span>
-      )}
+      <span className="Row-annotation">{props.annotation}</span>
     </tr>
   );
 }

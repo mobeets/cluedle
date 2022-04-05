@@ -53,7 +53,7 @@ function randomTarget(wordLength: number): string {
   return candidate.answer.toLowerCase();
 }
 
-function getClues(target: string) {
+function getClues(target: string): string[] {
   const clues = clueList.filter(function (el) { return el.answer.toLowerCase() === target; });
   return clues[0].clues;
 }
@@ -108,6 +108,7 @@ function Game(props: GameProps) {
     for (let i = 1; i < gameNumber; i++) randomTarget(wordLength);
     return challenge || randomTarget(wordLength);
   });
+  const [clues, fetchClues] = useState<string[]>(getClues(target));
   const [hint, setHint] = useState<string>(
     challengeError
       ? `Invalid challenge string, playing random game.`
@@ -133,11 +134,12 @@ function Game(props: GameProps) {
     setChallenge("");
     const newWordLength = limitLength(wordLength);
     setWordLength(newWordLength);
-    setTarget(randomTarget(newWordLength));
+    let newTarget = randomTarget(newWordLength);
+    setTarget(newTarget);
     setHint("");
     setGuesses([]);
     setCurrentGuess("");
-    const clues = getClues(target);
+    fetchClues(getClues(newTarget));
     setGameState(GameState.Playing);
     setGameNumber((x) => x + 1);
   };
@@ -245,6 +247,7 @@ function Game(props: GameProps) {
       const guess = [...guesses, currentGuess][i] ?? "";
       const cluedLetters = clue(guess, target);
       const lockedIn = i < guesses.length;
+      const riddle = (i <= guesses.length) ? clues[i] : "";
       if (lockedIn) {
         for (const { clue, letter } of cluedLetters) {
           if (clue === undefined) break;
@@ -266,6 +269,7 @@ function Game(props: GameProps) {
               : RowState.Pending
           }
           cluedLetters={cluedLetters}
+          annotation={riddle}
         />
       );
     });
@@ -351,8 +355,8 @@ function Game(props: GameProps) {
           <button
             onClick={() => {
               const emoji = props.colorBlind
-                ? ["⬛", "🟦", "🟧"]
-                : ["⬛", "🟨", "🟩"];
+                ? ["⬛", "⬛", "🟧"]
+                : ["⬛", "⬛", "🟩"];
               const score = gameState === GameState.Lost ? "X" : guesses.length;
               share(
                 "Result copied to clipboard!",

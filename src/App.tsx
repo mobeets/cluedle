@@ -78,7 +78,7 @@ function App() {
             fontStyle: difficulty > 1 ? "italic" : "inherit",
           }}
         >
-          cluedle
+          Cluedle
         </span>
       </h1>
       <div className="top-right">

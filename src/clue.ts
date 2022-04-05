@@ -33,14 +33,13 @@ export function clue(word: string, target: string): CluedLetter[] {
 }
 
 export function clueClass(clue: Clue): string {
-  return "letter-absent";
-  // if (clue === Clue.Absent) {
-  //   return "letter-absent";
-  // } else if (clue === Clue.Elsewhere) {
-  //   return "letter-elsewhere";
-  // } else {
-  //   return "letter-correct";
-  // }
+  if (clue === Clue.Absent) {
+    return "letter-absent";
+  } else if (clue === Clue.Elsewhere) {
+    return "letter-absent";
+  } else {
+    return "letter-correct";
+  }
 }
 
 export function clueWord(clue: Clue): string {
