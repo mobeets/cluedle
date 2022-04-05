@@ -10,8 +10,8 @@ CLUEFILE = '/Users/mobeets/code/react-crossword-generator/data/clues.txt'
 WORDFILE = 'dictionary.json'
 
 MIN_CLUES = 10
-MIN_LENGTH = 4
-MAX_LENGTH = 7
+MIN_LENGTH = 5
+MAX_LENGTH = 5
 MAX_TRIES = 5
 JOIN_KEY = '|||'
 
@@ -38,6 +38,7 @@ def save_answers(cluefile=CLUEFILE, outfile='targets2.json', min_clues=MIN_CLUES
 		clues = dfc.clue.values.tolist()
 		lenstr = '({})'.format(len(answer))
 		clues = list(set([clue.replace(lenstr, '').strip() for clue in clues if type(clue) is str]))
+		clues = [c for c in clues if 'across' not in c.lower() and 'down' not in c.lower()]
 		if len(clues) < min_clues:
 			continue
 		if words and answer.lower() not in words:
