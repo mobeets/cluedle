@@ -42,7 +42,7 @@ body {
 
 .Row-annotation {
   margin-inline-start: 16px;
-  width: 20em;
+  width: 50%;
   text-align: start;
   font-style: italic;
 }
