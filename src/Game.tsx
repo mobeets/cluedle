@@ -32,8 +32,8 @@ interface GameProps {
 }
 
 const minLength = 4;
-const defaultLength = 5;
 const maxLength = 11;
+const defaultLength = 5;
 const limitLength = (n: number) =>
   n >= minLength && n <= maxLength ? n : defaultLength;
 
@@ -114,37 +114,37 @@ function Game(props: GameProps) {
   );
   const currentSeedParams = () =>
     `?seed=${seed}&length=${wordLength}&game=${gameNumber}`;
-  useEffect(() => {
-    if (seed) {
-      window.history.replaceState(
-        {},
-        document.title,
-        window.location.pathname + currentSeedParams()
-      );
-    }
-  }, [wordLength, gameNumber]);
+  // useEffect(() => {
+  //   if (seed) {
+  //     window.history.replaceState(
+  //       {},
+  //       document.title,
+  //       window.location.pathname + currentSeedParams()
+  //     );
+  //   }
+  // }, [wordLength, gameNumber]);
   const tableRef = useRef<HTMLTableElement>(null);
-  const startNextGame = () => {
-    if (challenge) {
-      // Clear the URL parameters:
-      window.history.replaceState({}, document.title, window.location.pathname);
-    }
-    setChallenge("");
-    const newWordLength = limitLength(wordLength);
-    setWordLength(newWordLength);
-    let newTarget = randomTarget(newWordLength);
-    setTarget(newTarget);
-    setHint("");
-    setGuesses([]);
-    setCurrentGuess("");
-    fetchClues(getClues(newTarget));
-    setGameState(GameState.Playing);
-    setGameNumber((x) => x + 1);
-  };
+  // const startNextGame = () => {
+  //   if (challenge) {
+  //     // Clear the URL parameters:
+  //     window.history.replaceState({}, document.title, window.location.pathname);
+  //   }
+  //   setChallenge("");
+  //   const newWordLength = limitLength(wordLength);
+  //   setWordLength(newWordLength);
+  //   let newTarget = randomTarget(newWordLength);
+  //   setTarget(newTarget);
+  //   setHint("");
+  //   setGuesses([]);
+  //   setCurrentGuess("");
+  //   fetchClues(getClues(newTarget));
+  //   setGameState(GameState.Playing);
+  //   setGameNumber((x) => x + 1);
+  // };
 
   async function share(copiedHint: string, text?: string) {
     const url = seed
-      ? window.location.origin + window.location.pathname + currentSeedParams()
+      ? window.location.origin + window.location.pathname// + currentSeedParams()
       : getChallengeUrl(target);
     const body = url + (text ? "\n\n" + text : "");
     if (
@@ -171,7 +171,7 @@ function Game(props: GameProps) {
   const onKey = (key: string) => {
     if (gameState !== GameState.Playing) {
       if (key === "Enter") {
-        startNextGame();
+        // startNextGame();
       }
       return;
     }
@@ -205,10 +205,13 @@ function Game(props: GameProps) {
       setGuesses((guesses) => guesses.concat([currentGuess]));
       setCurrentGuess((guess) => "");
 
+      // const gameOver = (verbed: string) =>
+      //   `You ${verbed}! The answer was ${target.toUpperCase()}. (Enter to ${
+      //     challenge ? "play a random game" : "play again."
+      //   })`;
+
       const gameOver = (verbed: string) =>
-        `You ${verbed}! The answer was ${target.toUpperCase()}. (Enter to ${
-          challenge ? "play a random game" : "play again."
-        })`;
+        `You ${verbed}! The answer was ${target.toUpperCase()}.`;
 
       if (currentGuess === target) {
         setHint(gameOver("won"));

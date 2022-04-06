@@ -6,16 +6,15 @@ export function About() {
   return (
     <div className="App-about">
       <p>
-        <i>{gameName}</i> is a remake of the word game{" "}
+        <i>{gameName}</i> is a remake of {" "}
         <a href="https://www.nytimes.com/games/wordle/index.html">
           <i>Wordle</i>
-        </a>{" "}
-        by <a href="https://twitter.com/powerlanguish">powerlanguage</a>.
+        </a>.
       </p>
       <p>
         You get {maxGuesses} tries to guess a target word.
       </p>
-      <p>Before each guess, you get a new crossword-style clue, using <a href="https://github.com/jasonphillips/react-crossword-generator">clues</a> from crosswords.</p>
+      <p>With each guess, you get a new crossword-style clue.</p>
       <hr />
       <p>Our first clue is "<i>Can I have a ___?</i>" Let's try guessing "hand":</p>
       <Row
@@ -55,7 +54,8 @@ export function About() {
       </p>
       <hr />
       <p>
-        Report issues{" "}
+        Crossword clues sourced from <a href="https://github.com/jasonphillips/react-crossword-generator">here</a>.
+        Report issues with Cluedle {" "}
         <a href="https://github.com/mobeets/cluedle/issues">here</a>.
       </p>
     </div>

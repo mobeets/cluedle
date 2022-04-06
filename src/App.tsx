@@ -3,6 +3,7 @@ import { maxGuesses, seed, urlParam } from "./util";
 import Game from "./Game";
 import { useEffect, useState } from "react";
 import { About } from "./About";
+import { Stats } from "./Stats";
 
 function useSetting<T>(
   key: string,
@@ -33,7 +34,7 @@ const todaySeed =
   now.toLocaleDateString("en-US", { day: "2-digit" });
 
 function App() {
-  type Page = "game" | "about" | "settings";
+  type Page = "game" | "about" | "settings" | "stats";
   const [page, setPage] = useState<Page>("game");
   const prefersDark =
     window.matchMedia &&
@@ -45,13 +46,13 @@ function App() {
     "keyboard",
     "qwertyuiop-asdfghjkl-BzxcvbnmE"
   );
-  const [enterLeft, setEnterLeft] = useSetting<boolean>("enter-left", false);
+  const [enterLeft, setEnterLeft] = useSetting<boolean>("enter-left", true);
 
   useEffect(() => {
     document.body.className = dark ? "dark" : "";
-    if (urlParam("today") !== null || urlParam("todas") !== null) {
-      document.location = "?seed=" + todaySeed;
-    }
+    // if (urlParam("today") !== null || urlParam("todas") !== null) {
+    //   document.location = "?seed=" + todaySeed;
+    // }
     setTimeout(() => {
       // Avoid transition on page load
       document.body.style.transition = "0.3s background-color ease-out";
@@ -86,6 +87,7 @@ function App() {
           link("❌", "Close", "game")
         ) : (
           <>
+            {link("📊", "Stats", "stats")}
             {link("❓", "About", "about")}
             {link("⚙️", "Settings", "settings")}
           </>
@@ -103,6 +105,7 @@ function App() {
           {seed ? "Random" : "Today's"}
         </a>
       </div>*/}
+      {page === "stats" && <Stats />}
       {page === "about" && <About />}
       {page === "settings" && (
         <div className="Settings">
