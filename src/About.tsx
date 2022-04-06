@@ -9,12 +9,12 @@ export function About() {
         <i>{gameName}</i> is a remake of {" "}
         <a href="https://www.nytimes.com/games/wordle/index.html">
           <i>Wordle</i>
-        </a>.
+        </a> using crossword clues.
       </p>
       <p>
         You get {maxGuesses} tries to guess a target word.
       </p>
-      <p>With each guess, you get a new crossword-style clue.</p>
+      <p>With each guess, you get a new clue.</p>
       <hr />
       <p>Our first clue is "<i>Can I have a ___?</i>" Let's try guessing "hand":</p>
       <Row

@@ -333,11 +333,12 @@ function Game(props: GameProps) {
       >
         {hint || `\u00a0`}
       </p>
-      <Keyboard
+      {gameState == GameState.Playing && (<Keyboard
         layout={props.keyboardLayout}
         letterInfo={letterInfo}
         onKey={onKey}
       />
+      )}
       {/*<div className="Game-seed-info">
         {challenge
           ? "playing a challenge game"
@@ -359,7 +360,7 @@ function Game(props: GameProps) {
             onClick={() => {
               const emoji = props.colorBlind
                 ? ["⬛", "⬛", "🟧"]
-                : ["⬛", "⬛", "🟩"];
+                : ["⬛", "⬛", "🟧"];
               const score = gameState === GameState.Lost ? "X" : guesses.length;
               const puzzleIndex = indexOfToday().toString();
               share(
@@ -375,7 +376,7 @@ function Game(props: GameProps) {
               );
             }}
           >
-            Share Results
+            Share
           </button>
         )}
       </p>

@@ -1,7 +1,7 @@
 export function Stats() {
   return (
     <div className="App-stats">
-      <p>Testing.</p>
+      <p>Coming soon.</p>
     </div>
   );
 }
