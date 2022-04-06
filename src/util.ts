@@ -24,6 +24,22 @@ export function urlParam(name: string): string | null {
   return new URLSearchParams(window.location.search).get(name);
 }
 
+function treatAsUTC(date: Date) {
+  date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+  return date;
+}
+
+function daysBetween(startDate: Date, endDate: Date) {
+  var millisecondsPerDay = 24 * 60 * 60 * 1000;
+  return (treatAsUTC(endDate).getTime() - treatAsUTC(startDate).getTime()) / millisecondsPerDay;
+}
+
+const dayOne = new Date("2022/04/05 EDT");
+export function indexOfToday() {
+  const now = new Date();
+  return Math.floor(daysBetween(dayOne, now)) + 1;
+}
+
 const now = new Date();
 const todaySeed =
   now.toLocaleDateString("en-US", { year: "numeric" }) +

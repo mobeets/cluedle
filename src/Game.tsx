@@ -14,6 +14,7 @@ import {
   seed,
   speak,
   urlParam,
+  indexOfToday
 } from "./util";
 import { decode, encode } from "./base64";
 
@@ -360,9 +361,10 @@ function Game(props: GameProps) {
                 ? ["⬛", "⬛", "🟧"]
                 : ["⬛", "⬛", "🟩"];
               const score = gameState === GameState.Lost ? "X" : guesses.length;
+              const puzzleIndex = indexOfToday().toString();
               share(
                 "Result copied to clipboard!",
-                `${gameName} ${score}/${props.maxGuesses}\n` +
+                `${gameName} #${puzzleIndex}: ${score}/${props.maxGuesses}\n` +
                   guesses
                     .map((guess) =>
                       clue(guess, target)

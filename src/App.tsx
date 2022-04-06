@@ -27,11 +27,11 @@ function useSetting<T>(
   return [current, setSetting];
 }
 
-const now = new Date();
-const todaySeed =
-  now.toLocaleDateString("en-US", { year: "numeric" }) +
-  now.toLocaleDateString("en-US", { month: "2-digit" }) +
-  now.toLocaleDateString("en-US", { day: "2-digit" });
+// const now = new Date();
+// const todaySeed =
+//   now.toLocaleDateString("en-US", { year: "numeric" }) +
+//   now.toLocaleDateString("en-US", { month: "2-digit" }) +
+//   now.toLocaleDateString("en-US", { day: "2-digit" });
 
 function App() {
   type Page = "game" | "about" | "settings" | "stats";
