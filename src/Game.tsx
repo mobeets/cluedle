@@ -5,7 +5,6 @@ import { Clue, clue, describeClue, violation } from "./clue";
 import { Keyboard } from "./Keyboard";
 import clueList from "./answers.json";
 import {
-  describeSeed,
   dictionarySet,
   Difficulty,
   gameName,
@@ -113,8 +112,8 @@ function Game(props: GameProps) {
       ? `Invalid challenge string, playing random game.`
       : `Make your first guess!`
   );
-  const currentSeedParams = () =>
-    `?seed=${seed}&length=${wordLength}&game=${gameNumber}`;
+  // const currentSeedParams = () =>
+  //   `?seed=${seed}&length=${wordLength}&game=${gameNumber}`;
   // useEffect(() => {
   //   if (seed) {
   //     window.history.replaceState(

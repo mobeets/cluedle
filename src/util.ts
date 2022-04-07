@@ -1,4 +1,5 @@
 import dictionary from "./dictionary.json";
+import { useState } from "react";
 
 export enum Difficulty {
   Normal,
@@ -18,6 +19,28 @@ function mulberry32(a: number) {
     t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
     return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
   };
+}
+
+export function useSetting<T>(
+  key: string,
+  initial: T
+): [T, (value: T | ((t: T) => T)) => void] {
+  const [current, setCurrent] = useState<T>(() => {
+    try {
+      const item = window.localStorage.getItem(key);
+      return item ? JSON.parse(item) : initial;
+    } catch (e) {
+      return initial;
+    }
+  });
+  const setSetting = (value: T | ((t: T) => T)) => {
+    try {
+      const v = value instanceof Function ? value(current) : value;
+      setCurrent(v);
+      window.localStorage.setItem(key, JSON.stringify(v));
+    } catch (e) {}
+  };
+  return [current, setSetting];
 }
 
 export function urlParam(name: string): string | null {

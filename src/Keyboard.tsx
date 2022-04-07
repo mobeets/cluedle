@@ -1,4 +1,4 @@
-import { Clue, clueClass } from "./clue";
+import { Clue } from "./clue";
 
 interface KeyboardProps {
   layout: string;
@@ -21,7 +21,7 @@ export function Keyboard(props: KeyboardProps) {
         <div key={i} className="Game-keyboard-row">
           {row.map((label, j) => {
             let className = "Game-keyboard-button";
-            const clue = props.letterInfo.get(label);
+            // const clue = props.letterInfo.get(label);
             // if (clue !== undefined) {
             //   className += " " + clueClass(clue);
             // }
