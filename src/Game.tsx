@@ -333,7 +333,7 @@ function Game(props: GameProps) {
       >
         {hint || `\u00a0`}
       </p>
-      {gameState == GameState.Playing && (<Keyboard
+      {gameState === GameState.Playing && (<Keyboard
         layout={props.keyboardLayout}
         letterInfo={letterInfo}
         onKey={onKey}

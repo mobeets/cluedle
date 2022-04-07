@@ -3,7 +3,7 @@ import { maxGuesses, seed, urlParam } from "./util";
 import Game from "./Game";
 import { useEffect, useState } from "react";
 import { About } from "./About";
-import { Stats } from "./Stats";
+import { defaultStats, StatProps, Stats } from "./Stats";
 
 function useSetting<T>(
   key: string,
@@ -36,6 +36,7 @@ function useSetting<T>(
 function App() {
   type Page = "game" | "about" | "settings" | "stats";
   const [page, setPage] = useState<Page>("game");
+  const [stats, setStats] = useState<StatProps>(defaultStats());
   const prefersDark =
     window.matchMedia &&
     window.matchMedia("(prefers-color-scheme: dark)").matches;
@@ -105,7 +106,17 @@ function App() {
           {seed ? "Random" : "Today's"}
         </a>
       </div>*/}
-      {page === "stats" && <Stats />}
+      {page === "stats" && <Stats
+          nPlayed={stats.nPlayed}
+          nWon={stats.nWon}
+          nLost={stats.nLost}
+          n1={stats.n1}
+          n2={stats.n2}
+          n3={stats.n3}
+          n4={stats.n4}
+          n5={stats.n5}
+          n6={stats.n6}
+        />}
       {page === "about" && <About />}
       {page === "settings" && (
         <div className="Settings">
