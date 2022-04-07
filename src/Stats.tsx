@@ -14,11 +14,15 @@ export interface StatProps {
 
 export function defaultStats() {
   return {'nPlayed': 0, 'nWon': 0, 'nLost': 0, 'n1': 0, 'n2': 0,
-    'n3': 0, 'n4': 0, 'n5': 0, 'n6': 0};
+    'n3': 0, 'n4': 0, 'n5': 0, 'n6': 0, 'dateLastPlayed': '20220402'};
 }
 
 function getHistWidth(value: number, sum: number) {
-  return Math.round(100 * value/sum);
+  if (sum > 0) {
+    return Math.round(100 * value/sum);
+  } else {
+    return 0;
+  }
 }
 
 export function Stats(stats: StatProps) {
