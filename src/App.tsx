@@ -109,13 +109,7 @@ function App() {
       {page === "stats" && <Stats
           nPlayed={stats.nPlayed}
           nWon={stats.nWon}
-          nLost={stats.nLost}
-          n1={stats.n1}
-          n2={stats.n2}
-          n3={stats.n3}
-          n4={stats.n4}
-          n5={stats.n5}
-          n6={stats.n6}
+          counts={stats.counts}
         />}
       {page === "about" && <About />}
       {page === "settings" && (
