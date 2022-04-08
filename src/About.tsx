@@ -54,8 +54,8 @@ export function About() {
       </p>
       <hr />
       <p>
-        Crossword clues sourced from <a href="https://github.com/jasonphillips/react-crossword-generator">here</a>.
-        Report issues with Cluedle {" "}
+        Modified from a Wordle <a href="https://github.com/lynn/hello-wordl">clone</a> paired with these <a href="https://github.com/jasonphillips/react-crossword-generator">clues</a>.
+        <br/>Report issues with Cluedle {" "}
         <a href="https://github.com/mobeets/cluedle/issues">here</a>.
       </p>
     </div>
