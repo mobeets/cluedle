@@ -323,7 +323,7 @@ function Game(props: GameProps) {
                 ? ["⬛", "⬛", "🟧"]
                 : ["⬛", "⬛", "🟧"];
               const score = gameState === GameState.Lost ? "X" : guesses.length;
-              const puzzleIndex = indexOfToday().toString();
+              const puzzleIndex = gameNumber.toString();
               share(
                 "Result copied to clipboard!",
                 `${gameName} #${puzzleIndex}: ${score}/${props.maxGuesses}\n` +
