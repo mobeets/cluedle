@@ -9,6 +9,7 @@ export enum Difficulty {
 
 export const gameName = "Cluedle";
 export const maxGuesses = 6;
+const dayOne = new Date("2022/04/07 EDT");
 
 export const dictionarySet: Set<string> = new Set(dictionary);
 
@@ -57,7 +58,6 @@ function daysBetween(startDate: Date, endDate: Date) {
   return (treatAsUTC(endDate).getTime() - treatAsUTC(startDate).getTime()) / millisecondsPerDay;
 }
 
-const dayOne = new Date("2022/04/04 EDT");
 export function indexOfToday() {
   const now = new Date();
   return Math.floor(daysBetween(dayOne, now));
