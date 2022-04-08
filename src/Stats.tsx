@@ -12,9 +12,14 @@ export function defaultStats() {
     'counts': [0, 0, 0, 0, 0, 0, 0]};
 }
 
-export function updateStats(stats: StatProps, guesses: string[]) {
+export function updateStats(stats: StatProps, guesses: string[], lost: boolean) {
   stats.nPlayed++;
-  stats.counts[guesses.length]++;
+  if (lost) {
+    stats.counts[stats.counts.length-1]++;
+  } else {
+    stats.counts[guesses.length]++;
+    stats.nWon++;
+  }
   return stats;
 }
 
