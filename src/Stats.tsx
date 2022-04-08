@@ -1,4 +1,5 @@
 import "./Stats.css";
+import { useSetting } from "./util";
 
 export interface StatProps {
   nPlayed: number;
@@ -9,6 +10,12 @@ export interface StatProps {
 export function defaultStats() {
   return {'nPlayed': 0, 'nWon': 0, 'dateLastPlayed': '20220402',
     'counts': [0, 0, 0, 0, 0, 0, 0]};
+}
+
+export function updateStats(stats: StatProps, guesses: string[]) {
+  stats.nPlayed++;
+  stats.counts[guesses.length]++;
+  return stats;
 }
 
 function getHistWidth(value: number, sum: number) {
@@ -30,7 +37,8 @@ function makeHistogram(index: string, value: number, max: number) {
         </div>);
 }
 
-export function Stats(stats: StatProps) {
+export function Stats() {
+  const [stats, setStats] = useSetting<StatProps>("stats", defaultStats());
   const maxCount = Math.max(...stats.counts);
   return (
     <div className="App-stats">

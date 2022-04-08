@@ -3,18 +3,11 @@ import { useSetting, maxGuesses } from "./util";
 import Game from "./Game";
 import { useEffect, useState } from "react";
 import { About } from "./About";
-import { defaultStats, StatProps, Stats } from "./Stats";
-
-// const now = new Date();
-// const todaySeed =
-//   now.toLocaleDateString("en-US", { year: "numeric" }) +
-//   now.toLocaleDateString("en-US", { month: "2-digit" }) +
-//   now.toLocaleDateString("en-US", { day: "2-digit" });
+import { Stats } from "./Stats";
 
 function App() {
   type Page = "game" | "about" | "settings" | "stats";
   const [page, setPage] = useState<Page>("game");
-  const [stats, setStats] = useState<StatProps>(defaultStats());
   const prefersDark =
     window.matchMedia &&
     window.matchMedia("(prefers-color-scheme: dark)").matches;
@@ -72,23 +65,8 @@ function App() {
           </>
         )}
       </div>
-      {/*<div
-        style={{
-          position: "absolute",
-          left: 5,
-          top: 5,
-          visibility: page === "game" ? "visible" : "hidden",
-        }}
-      >
-        <a href={seed ? "?random" : "?seed=" + todaySeed}>
-          {seed ? "Random" : "Today's"}
-        </a>
-      </div>*/}
-      {page === "stats" && <Stats
-          nPlayed={stats.nPlayed}
-          nWon={stats.nWon}
-          counts={stats.counts}
-        />}
+
+      {page === "stats" && <Stats />}
       {page === "about" && <About />}
       {page === "settings" && (
         <div className="Settings">
