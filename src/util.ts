@@ -9,7 +9,7 @@ export enum Difficulty {
 
 export const gameName = "Cluedle";
 export const maxGuesses = 6;
-const dayOne = new Date("2022/04/07 EDT");
+const dayOne = new Date("2022/04/06 EDT");
 
 export const dictionarySet: Set<string> = new Set(dictionary);
 
