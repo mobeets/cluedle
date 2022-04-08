@@ -1,8 +1,13 @@
 import random
 import string
 import datetime
+import numpy as np
 import pandas as pd
 import json
+
+import nltk
+from nltk.corpus import stopwords
+STOPWORDS = stopwords.words('english')
 
 # source: https://cryptics.georgeho.org/data/clues
 # CLUEFILE = '/Users/mobeets/Downloads/clues.csv'
@@ -20,6 +25,81 @@ def load_cluefile(cluefile=CLUEFILE):
 	# df = df[df.puzzle_name.apply(lambda x: 'cryptic' not in x.lower() if type(x) is str else False) == True]
 	df = pd.read_csv(cluefile, sep='\t', header=None, names=['clue', 'answer', 'x', 'y'])
 	return df
+
+def partition(xs, condition):
+	"""
+	split a list into those that match a condition and those that do not
+	"""
+	good, bad = [], []
+	for x in xs:
+		good.append(x) if condition(x) else bad.append(x)
+	return good, bad
+
+def rm_punctuation(clue):
+	"""
+	remove punctuation from clue
+	"""
+	return clue.translate(str.maketrans('', '', string.punctuation))
+
+def get_word_set(clue, min_word_length):
+	"""
+	split clue into words of min length that are not stopwords
+	"""
+	ws = rm_punctuation(clue)
+	return [x for x in ws.lower().split(' ') if len(x) >= min_word_length and x not in STOPWORDS]
+
+def remove_similar_words(clues, min_word_length=4):
+	"""
+	get a preferred group of clues that all have unique words
+	"""
+	keeps = []
+	ignores = []
+	all_words = set()
+	for clue in clues:
+		words = get_word_set(clue, min_word_length)
+		if any([w in words for w in all_words]):
+			ignores.append(clue)
+		else:
+			keeps.append(clue)
+			all_words.update(words)
+	return keeps, ignores
+
+def group_clues_by_type(clues):
+	quets, clues = partition(clues, lambda clue: clue.endswith('?'))
+	metas, clues = partition(clues, lambda clue: ', say' in clue or 'maybe, ' in clue or ', in a way' in clue or ', perhaps' in clue or ', for one' in clue or ', e.g.' in clue)
+
+	order = []
+	if quets:
+		order.append(quets.pop())
+	if quets:
+		order.append(quets.pop())
+	if metas and len(order) < 2:
+		order.append(metas.pop())
+	# if metas and len(order) < 2:
+	# 	order.append(metas.pop())
+	if clues:
+		order.extend(clues)
+	if quets:
+		order.extend(quets)
+	if metas:
+		order.extend(metas)
+	return order
+
+def order_clues(clues):
+	keeps, ignores = remove_similar_words(clues)
+	clues_A = group_clues_by_type(keeps)
+	clues_B = group_clues_by_type(ignores)
+	return clues_A# + clues_B
+
+def order_and_filter_clues(outfile='answers_sorted.json', min_count=6):
+	answers = load_answers()
+	new_answers = []
+	for item in answers:
+		clues = order_clues(item['clues'])
+		if len(clues) >= min_count:
+			item['clues'] = clues[:min_count]
+			new_answers.append(item)
+	json.dump(new_answers, open(outfile, 'w'))
 
 def save_answers(cluefile=CLUEFILE, outfile='targets2.json', min_clues=MIN_CLUES, min_length=MIN_LENGTH, max_length=MAX_LENGTH, dictfile='dictionary.json'):
 	df = load_cluefile(cluefile)
@@ -45,7 +125,7 @@ def save_answers(cluefile=CLUEFILE, outfile='targets2.json', min_clues=MIN_CLUES
 			continue
 		answers.append({'answer': answer, 'clues': clues})
 
-	# pd.DataFrame(answers).to_csv(outfile)
+	np.random.shuffle(answers)
 	json.dump(answers, open(outfile, 'w'))
 
 def get_answer_and_clues(answers):
