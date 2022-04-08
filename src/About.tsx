@@ -12,9 +12,8 @@ export function About() {
         </a> using crossword clues.
       </p>
       <p>
-        You get {maxGuesses} tries to guess a target word.
+        There's one target word, and you get up to {maxGuesses} different crossword clues to help you guess it.
       </p>
-      <p>With each guess, you get a new clue.</p>
       <hr />
       <p>Our first clue is "<i>Can I have a ___?</i>" Let's try guessing "hand":</p>
       <Row
@@ -37,7 +36,7 @@ export function About() {
         <b>H</b>, <b>A</b>, and <b>N</b> may or may not be in the target word.
       </p>
       <hr />
-      <p>Our new clue is "<i>Slang for 'So true.'</i>"</p>
+      <p>Maybe our new clue will help: "<i>Slang for 'So true.'</i>"</p>
       <Row
         rowState={RowState.LockedIn}
         wordLength={4}
