@@ -57,10 +57,10 @@ function daysBetween(startDate: Date, endDate: Date) {
   return (treatAsUTC(endDate).getTime() - treatAsUTC(startDate).getTime()) / millisecondsPerDay;
 }
 
-const dayOne = new Date("2022/04/05 EDT");
+const dayOne = new Date("2022/04/04 EDT");
 export function indexOfToday() {
   const now = new Date();
-  return Math.floor(daysBetween(dayOne, now)) + 1;
+  return Math.floor(daysBetween(dayOne, now));
 }
 
 const now = new Date();

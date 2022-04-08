@@ -23,6 +23,7 @@ enum GameState {
   Playing,
   Won,
   Lost,
+  AlreadyPlayed
 }
 
 interface GameProps {
@@ -45,19 +46,19 @@ function getTodaysTarget(wordLength: number, index: number): string {
   return candidate.answer.toLowerCase();
 }
 
-function randomTarget(wordLength: number): string {
-  // console.log(clueList);
-  const eligible = clueList.filter(function (el) { return el.answer.length === wordLength; });
+// function randomTarget(wordLength: number): string {
+//   // console.log(clueList);
+//   const eligible = clueList.filter(function (el) { return el.answer.length === wordLength; });
 
-  // const eligible = targets.filter((word) => word.length === wordLength);
-  // let candidate: string;
-  // do {
-  //   candidate = pick(eligible);
-  // } while (/\*/.test(candidate));
+//   // const eligible = targets.filter((word) => word.length === wordLength);
+//   // let candidate: string;
+//   // do {
+//   //   candidate = pick(eligible);
+//   // } while (/\*/.test(candidate));
 
-  let candidate = pick(eligible);
-  return candidate.answer.toLowerCase();
-}
+//   let candidate = pick(eligible);
+//   return candidate.answer.toLowerCase();
+// }
 
 function getClues(target: string): string[] {
   const clues = clueList.filter(function (el) { return el.answer.toLowerCase() === target; });
@@ -93,22 +94,25 @@ function parseUrlLength(): number {
 }
 
 function parseUrlGameNumber(): number {
-  const gameParam = urlParam("game");
-  if (!gameParam) return 1;
-  const gameNumber = Number(gameParam);
-  return gameNumber >= 1 && gameNumber <= 1000 ? gameNumber : 1;
+  return indexOfToday();
+  // const gameParam = urlParam("game");
+  // if (!gameParam) return 1;
+  // const gameNumber = Number(gameParam);
+  // return gameNumber >= 1 && gameNumber <= 1000 ? gameNumber : 1;
 }
 
 function Game(props: GameProps) {
   const [stats, setStats] = useSetting<StatProps>("stats", defaultStats());
-  const [gameState, setGameState] = useState(GameState.Playing);
-  const [guesses, setGuesses] = useState<string[]>([]);
   const [currentGuess, setCurrentGuess] = useState<string>("");
   const [challenge, setChallenge] = useState<string>(initChallenge);
   const [wordLength, setWordLength] = useState(
     challenge ? challenge.length : parseUrlLength()
   );
   const [gameNumber, setGameNumber] = useState(parseUrlGameNumber());
+  const [gameState, setGameState] = useState(gameNumber > stats.gameNumberLastPlayed ? GameState.Playing : GameState.AlreadyPlayed);
+  const [guesses, setGuesses] = useState<string[]>(() => {
+    return (gameState === GameState.AlreadyPlayed) ? stats.guesses : [];
+  });
   const [target, setTarget] = useState(() => {
     return getTodaysTarget(wordLength, gameNumber);
     // resetRng();
@@ -120,8 +124,9 @@ function Game(props: GameProps) {
   const [hint, setHint] = useState<string>(
     challengeError
       ? `Invalid challenge string, playing random game.`
-      : `Make your first guess!`
+      : (gameState === GameState.AlreadyPlayed ? `You already played today. Come back tomorrow!` : `Make your first guess!`)
   );
+
   // const currentSeedParams = () =>
   //   `?seed=${seed}&length=${wordLength}&game=${gameNumber}`;
   // useEffect(() => {
@@ -220,12 +225,12 @@ function Game(props: GameProps) {
 
       if (currentGuess === target) {
         setHint(gameOver("won"));
-        let newStats = updateStats(stats, guesses, false);
+        let newStats = updateStats(stats, guesses, false, gameNumber, currentGuess);
         setStats(newStats);
         setGameState(GameState.Won);
       } else if (guesses.length + 1 === props.maxGuesses) {
         setHint(gameOver("lost"));
-        let newStats = updateStats(stats, guesses, true);
+        let newStats = updateStats(stats, guesses, true, gameNumber, currentGuess);
         setStats(newStats);
         setGameState(GameState.Lost);
       } else {

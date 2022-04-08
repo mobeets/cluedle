@@ -2,18 +2,22 @@ import "./Stats.css";
 import { useSetting } from "./util";
 
 export interface StatProps {
+  gameNumberLastPlayed: number;
   nPlayed: number;
   nWon: number;
   counts: Array<number>;
+  guesses: Array<string>;
 }
 
 export function defaultStats() {
-  return {'nPlayed': 0, 'nWon': 0, 'dateLastPlayed': '20220402',
-    'counts': [0, 0, 0, 0, 0, 0, 0]};
+  return {'nPlayed': 0, 'nWon': 0, 'gameNumberLastPlayed': 0,
+    'counts': [0, 0, 0, 0, 0, 0, 0], 'guesses': []};
 }
 
-export function updateStats(stats: StatProps, guesses: string[], lost: boolean) {
+export function updateStats(stats: StatProps, guesses: string[], lost: boolean, gameNumber: number, lastGuess: string) {
+  stats.gameNumberLastPlayed = gameNumber;
   stats.nPlayed++;
+  stats.guesses = guesses.concat([lastGuess]);
   if (lost) {
     stats.counts[stats.counts.length-1]++;
   } else {
