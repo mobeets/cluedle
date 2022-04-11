@@ -4,6 +4,7 @@ import { useSetting } from "./util";
 export interface StatProps {
   gameNumberLastPlayed: number;
   gameNumberLastStarted: number;
+  lostGameLastPlayed: boolean;
   nPlayed: number;
   nWon: number;
   counts: Array<number>;
@@ -14,6 +15,7 @@ export function defaultStats() {
   return {'nPlayed': 0, 'nWon': 0,
     'gameNumberLastPlayed': 0,
     'gameNumberLastStarted': 0,
+    'lostGameLastPlayed': false,
     'counts': [0, 0, 0, 0, 0, 0, 0], 'guesses': []};
 }
 
@@ -28,6 +30,7 @@ export function updateStats(stats: StatProps, guesses: string[], lost: boolean, 
   stats.gameNumberLastStarted = gameNumber;
   stats.nPlayed++;
   stats.guesses = guesses.concat([lastGuess]);
+  stats.lostGameLastPlayed = lost;
   if (lost) {
     stats.counts[stats.counts.length-1]++;
   } else {
