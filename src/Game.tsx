@@ -3,15 +3,13 @@ import { Row, RowState } from "./Row";
 import dictionary from "./dictionary.json";
 import { Clue, clue, describeClue, violation } from "./clue";
 import { Keyboard } from "./Keyboard";
-import { StatProps, defaultStats, updateStats } from "./Stats";
+import { StatProps, defaultStats, updateStats, updateGuesses } from "./Stats";
 import clueList from "./answers.json";
 import {
   useSetting,
   dictionarySet,
   Difficulty,
   gameName,
-  pick,
-  resetRng,
   seed,
   speak,
   urlParam,
@@ -23,7 +21,7 @@ enum GameState {
   Playing,
   Won,
   Lost,
-  AlreadyPlayed
+  AlreadyPlayed,
 }
 
 interface GameProps {
@@ -111,7 +109,7 @@ function Game(props: GameProps) {
   const [gameNumber, setGameNumber] = useState(parseUrlGameNumber());
   const [gameState, setGameState] = useState(gameNumber > stats.gameNumberLastPlayed ? GameState.Playing : GameState.AlreadyPlayed);
   const [guesses, setGuesses] = useState<string[]>(() => {
-    return (gameState === GameState.AlreadyPlayed) ? stats.guesses : [];
+    return (gameState === GameState.AlreadyPlayed) ? stats.guesses : (gameNumber > stats.gameNumberLastStarted ? [] : stats.guesses);
   });
   const [target, setTarget] = useState(() => {
     return getTodaysTarget(wordLength, gameNumber);
@@ -236,6 +234,7 @@ function Game(props: GameProps) {
       } else {
         setHint("");
         speak(describeClue(clue(currentGuess, target)));
+        setStats(updateGuesses(stats, guesses, gameNumber, currentGuess));
       }
     }
   };
@@ -262,7 +261,9 @@ function Game(props: GameProps) {
       const guess = [...guesses, currentGuess][i] ?? "";
       const cluedLetters = clue(guess, target);
       const lockedIn = i < guesses.length;
-      const riddle = (i <= guesses.length) ? clues[i] : "";
+      const isPlaying = +(gameState === GameState.Playing);
+      const riddle = (i < (guesses.length +  isPlaying)) ? clues[i] : "";
+      console.log([i, guesses.length, gameState]);
       if (lockedIn) {
         for (const { clue, letter } of cluedLetters) {
           if (clue === undefined) break;
