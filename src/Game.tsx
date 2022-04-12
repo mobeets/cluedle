@@ -322,7 +322,7 @@ function Game(props: GameProps) {
               const emoji = props.colorBlind
                 ? ["⬛", "⬛", "🟧"]
                 : ["⬛", "⬛", "🟧"];
-              const score = gameState === GameState.Lost ? "X" : guesses.length;
+              const score = ((gameState === GameState.Lost) || (gameState === GameState.AlreadyPlayed && stats.lostGameLastPlayed)) ? "X" : guesses.length;
               const puzzleIndex = gameNumber.toString();
               share(
                 "Result copied to clipboard!",
