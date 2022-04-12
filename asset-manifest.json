@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/cluedle/static/css/main.6908b9a5.css",
-    "main.js": "/cluedle/static/js/main.bd558103.js",
+    "main.js": "/cluedle/static/js/main.e31f9a2f.js",
     "index.html": "/cluedle/index.html",
     "main.6908b9a5.css.map": "/cluedle/static/css/main.6908b9a5.css.map",
-    "main.bd558103.js.map": "/cluedle/static/js/main.bd558103.js.map"
+    "main.e31f9a2f.js.map": "/cluedle/static/js/main.e31f9a2f.js.map"
   },
   "entrypoints": [
     "static/css/main.6908b9a5.css",
-    "static/js/main.bd558103.js"
+    "static/js/main.e31f9a2f.js"
   ]
 }
