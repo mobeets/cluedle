@@ -107,9 +107,9 @@ function Game(props: GameProps) {
     challenge ? challenge.length : parseUrlLength()
   );
   const [gameNumber, setGameNumber] = useState(parseUrlGameNumber());
-  const [gameState, setGameState] = useState(gameNumber > stats.gameNumberLastPlayed ? GameState.Playing : GameState.AlreadyPlayed);
+  const [gameState, setGameState] = useState((gameNumber > stats.gameNumberLastPlayed) ? GameState.Playing : GameState.AlreadyPlayed);
   const [guesses, setGuesses] = useState<string[]>(() => {
-    return (gameState === GameState.AlreadyPlayed) ? stats.guesses : (gameNumber > stats.gameNumberLastStarted ? [] : stats.guesses);
+    return ((gameState === GameState.AlreadyPlayed) || (gameNumber === stats.gameNumberLastStarted)) ? stats.guesses : [];
   });
   const [target, setTarget] = useState(() => {
     return getTodaysTarget(wordLength, gameNumber);
@@ -263,7 +263,6 @@ function Game(props: GameProps) {
       const lockedIn = i < guesses.length;
       const isPlaying = +(gameState === GameState.Playing);
       const riddle = (i < (guesses.length +  isPlaying)) ? clues[i] : "";
-      console.log([i, guesses.length, gameState]);
       if (lockedIn) {
         for (const { clue, letter } of cluedLetters) {
           if (clue === undefined) break;
